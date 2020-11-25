@@ -36,7 +36,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -49,7 +49,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun backPressed() = presenter.backClick()
 
-    override fun setUserLogin() {
-        binding.loginUser.text = presenter.user.login
+    override fun setUserLogin(login: String) {
+        binding.loginUser.text = login
     }
 }

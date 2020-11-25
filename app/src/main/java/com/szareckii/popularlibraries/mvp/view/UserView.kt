@@ -5,5 +5,5 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
 interface UserView: MvpView {
-    fun setUserLogin()
+    fun setUserLogin(login: String)
 }
