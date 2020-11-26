@@ -6,10 +6,13 @@ import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.list.UserItemView
 import com.szareckii.popularlibraries.navigation.Screens
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
-class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo): MvpPresenter<UsersView>() {
+class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo, val mainScheduler: Scheduler): MvpPresenter<UsersView>() {
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
@@ -25,6 +28,7 @@ class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo): MvpPre
     }
 
     val userListPresenter = UserListPresenter()
+    lateinit var disposable: Disposable
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -36,15 +40,22 @@ class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo): MvpPre
         }
     }
 
-    fun loadData() {
-        val users = usersRepo.getUsers()
+    private fun loadData() {
         userListPresenter.users.clear()
-        userListPresenter.users.addAll(users)
-        viewState.updateUsersList()
+
+        disposable = usersRepo.getUsersNotNull()
+            .subscribeOn(Schedulers.io())
+            .observeOn(mainScheduler)
+            .subscribe(){
+            userListPresenter.users.add(it)
+            viewState.updateUsersList()
+            }
     }
 
     fun backClick(): Boolean {
         router.exit()
         return true
     }
+
+    fun fragmentDestroy() = disposable.dispose()
 }
