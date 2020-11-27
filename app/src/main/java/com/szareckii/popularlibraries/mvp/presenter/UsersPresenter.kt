@@ -7,7 +7,9 @@ import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.list.UserItemView
 import com.szareckii.popularlibraries.navigation.Screens
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -28,7 +30,7 @@ class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo, val mai
     }
 
     val userListPresenter = UserListPresenter()
-    lateinit var disposable: Disposable
+    val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -41,15 +43,16 @@ class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo, val mai
     }
 
     private fun loadData() {
-        userListPresenter.users.clear()
-
-        disposable = usersRepo.getUsersNotNull()
+         usersRepo.getUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(mainScheduler)
-            .subscribe(){
-            userListPresenter.users.add(it)
-            viewState.updateUsersList()
-            }
+            .subscribe({
+                userListPresenter.users.clear()
+                userListPresenter.users.addAll(it)
+                viewState.updateUsersList()
+            }, {
+                it.printStackTrace()
+            }).addTo(compositeDisposable)
     }
 
     fun backClick(): Boolean {
@@ -57,5 +60,8 @@ class UsersPresenter(val router: Router, val usersRepo: GithubUsersRepo, val mai
         return true
     }
 
-    fun fragmentDestroy() = disposable.dispose()
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+    }
 }
