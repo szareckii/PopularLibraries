@@ -7,15 +7,18 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.mvp.model.image.IImageLoader
+import com.szareckii.popularlibraries.mvp.presenter.list.IRepositoryListPresenter
 import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
+import com.szareckii.popularlibraries.mvp.view.listUsers.RepositoryItemView
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_repository.*
 import kotlinx.android.synthetic.main.item_user.*
 
-class UsersRvAdapter(val presenter: IUserListPresenter, val imageLoader: IImageLoader<ImageView>): RecyclerView.Adapter<UsersRvAdapter.ViewHolder>() {
+class RepositoryRvAdapter(val presenter: IRepositoryListPresenter): RecyclerView.Adapter<RepositoryRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false))
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_repository, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.pos = position
@@ -25,16 +28,14 @@ class UsersRvAdapter(val presenter: IUserListPresenter, val imageLoader: IImageL
 
     override fun getItemCount() =  presenter.getCount()
 
-    inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), UserItemView, LayoutContainer{
+    inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), RepositoryItemView, LayoutContainer{
+
         override var pos = -1
 
-        override fun setLogin(text: String) {
-            tv_login.text = text
+        override fun setNameRepos(text: String) {
+            tv_repository.text = text
         }
 
-        override fun loadImage(url: String) {
-            imageLoader.loadInto(url, iv_image)
-        }
     }
 
 }

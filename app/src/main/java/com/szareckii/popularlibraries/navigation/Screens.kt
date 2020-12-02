@@ -1,6 +1,5 @@
 package com.szareckii.popularlibraries.navigation
 
-import androidx.fragment.app.Fragment
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.ui.fragment.UserFragment
 import com.szareckii.popularlibraries.ui.fragment.UsersFragment
@@ -11,7 +10,7 @@ class Screens {
         override fun getFragment() = UsersFragment.newInstance()
     }
 
-    class UserScreen(val user: GithubUser): SupportAppScreen() {
+    class UserScreen(private val user: GithubUser): SupportAppScreen() {
         override fun getFragment() = UserFragment.newInstance(user)
     }
 }
