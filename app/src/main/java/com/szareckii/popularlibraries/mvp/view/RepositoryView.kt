@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
 interface RepositoryView: MvpView {
-    fun init()
-    fun updateUserReposList()
-    fun setUserLogin(text: String)
+    fun setLogin(text: String)
+    fun setRepository(text: String)
+    fun setNumberOfForks(numberOfForks: Int)
 }

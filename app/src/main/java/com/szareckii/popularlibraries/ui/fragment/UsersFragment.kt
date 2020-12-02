@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUsersBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
-import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.ui.App

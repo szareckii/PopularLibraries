@@ -1,5 +1,6 @@
 package com.szareckii.popularlibraries.mvp.model.api
 
+import com.szareckii.popularlibraries.mvp.model.entity.GithubReposFork
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUserRepository
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import io.reactivex.rxjava3.core.Single
@@ -17,4 +18,7 @@ interface IDataSource {
 
     @GET
     fun getUserRepos(@Url url: String): Single<List<GithubUserRepository>>
+
+    @GET
+    fun getUserForks(@Url url: String): Single<List<GithubReposFork>>
 }

@@ -2,4 +2,9 @@
     <string name="app_name">Github viewer</string>
     <string name="login_user">login_user</string>
     <string name="repositories">Repositories:</string>
+    <string name="repository">Repository:</string>
+    <string name="number_of_forks">Number of forks: </string>
+    <string name="zero" translatable="false">0</string>
+    <string name="name_repository">name_repository</string>
+    <string name="user">Login:</string>
 </resources>

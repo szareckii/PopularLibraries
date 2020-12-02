@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Хитхаб обозреватель</string>
+    <string name="app_name">Гитхаб обозреватель</string>
     <string name="login_user">login_user</string>
     <string name="repositories">Репозитории:</string>
+    <string name="repository">Репозиторий:</string>
+    <string name="number_of_forks">Количество форков: </string>
+    <string name="name_repository">Имя репозитория</string>
+    <string name="user">Логин: </string>
 </resources>
