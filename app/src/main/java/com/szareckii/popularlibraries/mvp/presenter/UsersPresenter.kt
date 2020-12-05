@@ -1,7 +1,7 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
-import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
+import com.szareckii.popularlibraries.mvp.model.repo.IGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.kotlin.addTo
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
-class UsersPresenter(val router: Router, val usersRepo: RetrofitGithubUsersRepo, val mainScheduler: Scheduler): MvpPresenter<UsersView>() {
+class UsersPresenter(val router: Router, val usersRepo: IGithubUsersRepo, val mainScheduler: Scheduler): MvpPresenter<UsersView>() {
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
@@ -21,7 +21,7 @@ class UsersPresenter(val router: Router, val usersRepo: RetrofitGithubUsersRepo,
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            view.setLogin(user.login)
+            user.login?.let { view.setLogin(it) }
             user.avatarUrl?.let { view.loadImage(it) }
         }
 
@@ -36,12 +36,8 @@ class UsersPresenter(val router: Router, val usersRepo: RetrofitGithubUsersRepo,
         viewState.init()
         loadData()
 
-        userListPresenter.itemClickListener = {view ->
-            val reposUrl = userListPresenter.users[view.pos].reposUrl
-//            getUserRepos()
-
-
-            router.navigateTo(Screens.UserScreen(userListPresenter.users[view.pos]))
+        userListPresenter.itemClickListener = {itemView ->
+            router.navigateTo(Screens.UserScreen(userListPresenter.users[itemView.pos]))
         }
     }
 

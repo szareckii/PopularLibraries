@@ -4,42 +4,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentRepositoryBinding
-import com.szareckii.popularlibraries.databinding.FragmentUserBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
-import com.szareckii.popularlibraries.mvp.model.entity.GithubUserRepository
+import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.RepositoryPresenter
-import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.view.RepositoryView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
-import com.szareckii.popularlibraries.ui.adapter.RepositoryRvAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
+import moxy.MvpPresenter
 import moxy.ktx.moxyPresenter
+import ru.terrakok.cicerone.Router
 
 class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
 
     companion object {
-        fun newInstance(user: GithubUser, repository: GithubUserRepository) = RepositoryFragment().apply {
+        private const val REPOSITORY_ARG = "repository"
+        private const val USER_ARG = "user"
+        fun newInstance(user: GithubUser, repository: GithubRepository) = RepositoryFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("user", user)
-                putParcelable("repository", repository)
+                putParcelable(USER_ARG, user)
+                putParcelable(REPOSITORY_ARG, repository)
             }
         }
     }
 
-    val presenter by moxyPresenter {
-        val user = arguments?.get("user")
-        val repository = arguments?.get("repository")
-        RepositoryPresenter(App.instance.router, user as GithubUser, repository as GithubUserRepository, RetrofitGithubUsersRepo(ApiHolder.api), AndroidSchedulers.mainThread())
+    val presenter: RepositoryPresenter by moxyPresenter {
+        val user = arguments?.get(USER_ARG) as GithubUser
+        val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
+        RepositoryPresenter(App.instance.router, user, repository)
     }
 
     private var _binding: FragmentRepositoryBinding? = null
@@ -64,12 +60,12 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
         binding.loginUser.text = text
     }
 
-    override fun setRepository(text: String) {
+    override fun setTitle(text: String) {
         binding.nameRepository.text = text
     }
 
-    override fun setNumberOfForks(numberOfForks: Int) {
-        binding.numberOfForks.text = numberOfForks.toString()
+    override fun setForksCount(text: String) {
+        binding.numberOfForks.text = text
     }
 
     override fun backPressed() = presenter.backClick()

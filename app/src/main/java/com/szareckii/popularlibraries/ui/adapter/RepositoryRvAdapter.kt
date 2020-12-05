@@ -32,7 +32,7 @@ class RepositoryRvAdapter(val presenter: IRepositoryListPresenter): RecyclerView
 
         override var pos = -1
 
-        override fun setNameRepos(text: String) {
+        override fun setName(text: String) {
             tv_repository.text = text
         }
 
