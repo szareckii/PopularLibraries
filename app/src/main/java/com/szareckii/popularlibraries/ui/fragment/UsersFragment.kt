@@ -20,6 +20,7 @@ import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.UsersRvAdapter
 import com.szareckii.popularlibraries.ui.image.GlideImageLoader
+import com.szareckii.popularlibraries.ui.image.ImageCache
 import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -46,7 +47,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader())
+        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader(ImageCache(requireContext()), AndroidNetworkStatus(requireContext())))
         binding.rvUsers.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)

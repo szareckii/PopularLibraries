@@ -10,7 +10,7 @@ import com.szareckii.popularlibraries.mvp.model.entity.room.dao.RepositoryDao
 import com.szareckii.popularlibraries.mvp.model.entity.room.dao.UserDao
 import java.lang.RuntimeException
 
-@androidx.room.Database(entities = [RoomGithubUser::class, RoomGithubRepository::class], version = 2)
+@androidx.room.Database(entities = [RoomGithubUser::class, RoomGithubRepository::class], version = 3)
 abstract class Database: RoomDatabase() {
     abstract val userDao: UserDao
     abstract val repositoryDao: RepositoryDao
@@ -23,6 +23,7 @@ abstract class Database: RoomDatabase() {
             instance ?: let {
                 instance = Room.databaseBuilder(context, Database::class.java, DB_NAME)
                     .addMigrations(MIGRATION_1_2)
+//                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build()
             }
         }
