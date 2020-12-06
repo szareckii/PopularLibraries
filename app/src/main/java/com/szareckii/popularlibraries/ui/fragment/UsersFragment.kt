@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUsersBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
+import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
+import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubUsersCache
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.UsersRvAdapter
 import com.szareckii.popularlibraries.ui.image.GlideImageLoader
+import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -28,7 +31,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(App.instance.router, RetrofitGithubUsersRepo(ApiHolder.api), AndroidSchedulers.mainThread())}
+    private val cacheUsers = RoomGithubUsersCache(Database.getInstance())
+
+    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(App.instance.router,
+        RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), cacheUsers),
+        AndroidSchedulers.mainThread())}
     private var adapter: UsersRvAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

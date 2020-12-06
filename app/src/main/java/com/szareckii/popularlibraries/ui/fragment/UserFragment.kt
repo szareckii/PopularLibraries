@@ -12,12 +12,16 @@ import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUserBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
+import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubRepositoriesRepo
+import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubRepositoriesCache
+import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubUsersCache
 import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.RepositoryRvAdapter
+import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -33,9 +37,12 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         }
     }
 
+    private val cacheRepositories = RoomGithubRepositoriesCache(Database.getInstance())
+
     val presenter: UserPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        UserPresenter(App.instance.router, user,  RetrofitGithubRepositoriesRepo(ApiHolder.api), AndroidSchedulers.mainThread())
+        UserPresenter(App.instance.router, user,  RetrofitGithubRepositoriesRepo(ApiHolder.api,
+            AndroidNetworkStatus(requireContext()), cacheRepositories), AndroidSchedulers.mainThread())
     }
 
     private var adapter: RepositoryRvAdapter? = null
