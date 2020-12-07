@@ -2,8 +2,8 @@ package com.szareckii.popularlibraries.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +20,7 @@ import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.UsersRvAdapter
 import com.szareckii.popularlibraries.ui.image.GlideImageLoader
-import com.szareckii.popularlibraries.ui.image.ImageCache
+import com.szareckii.popularlibraries.mvp.model.image.ImageCache
 import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -32,23 +32,23 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    private val cacheUsers = RoomGithubUsersCache(Database.getInstance())
+    val db = Database.getInstance()
+    private val cacheUsers = RoomGithubUsersCache(db)
 
     val presenter: UsersPresenter by moxyPresenter { UsersPresenter(App.instance.router,
         RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), cacheUsers),
         AndroidSchedulers.mainThread())}
     private var adapter: UsersRvAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): RelativeLayout? {
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return _binding?.root
     }
 
     override fun init() {
-        binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader(ImageCache(requireContext()), AndroidNetworkStatus(requireContext())))
-        binding.rvUsers.adapter = adapter
+        _binding?.rvUsers?.layoutManager = LinearLayoutManager(requireContext())
+        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader(ImageCache(requireContext(), db), AndroidNetworkStatus(requireContext())))
+        _binding?.rvUsers?.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, null)?.let {
@@ -56,13 +56,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
                 it
             )
         }
-        binding.rvUsers.addItemDecoration(dividerItemDecoration)
+        _binding?.rvUsers?.addItemDecoration(dividerItemDecoration)
     }
 
     private var _binding: FragmentUsersBinding? = null
-
-    private val binding
-        get() = _binding!!
 
     override fun onDestroyView() {
         super.onDestroyView()

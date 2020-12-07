@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.szareckii.popularlibraries.databinding.FragmentRepositoryBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
@@ -39,16 +40,14 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     }
 
     private var _binding: FragmentRepositoryBinding? = null
-    private val binding
-        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): LinearLayout? {
         _binding = FragmentRepositoryBinding.inflate(inflater, container, false)
-        return binding.root
+        return _binding?.root
     }
 
     override fun onDestroyView() {
@@ -57,15 +56,15 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     }
 
     override fun setLogin(text: String) {
-        binding.loginUser.text = text
+        _binding?.loginUser?.text = text
     }
 
     override fun setTitle(text: String) {
-        binding.nameRepository.text = text
+        _binding?.nameRepository?.text = text
     }
 
     override fun setForksCount(text: String) {
-        binding.numberOfForks.text = text
+        _binding?.numberOfForks?.text = text
     }
 
     override fun backPressed() = presenter.backClick()

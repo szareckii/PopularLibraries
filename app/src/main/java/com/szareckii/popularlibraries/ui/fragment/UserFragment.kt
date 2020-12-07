@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,20 +49,18 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     private var adapter: RepositoryRvAdapter? = null
 
     private var _binding: FragmentUserBinding? = null
-    private val binding
-        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): LinearLayout? {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
-        return binding.root
+        return _binding?.root
     }
 
     override fun init() {
-        binding.rvRepository.layoutManager = LinearLayoutManager(requireContext())
+        _binding?.rvRepository?.layoutManager = LinearLayoutManager(requireContext())
         adapter = RepositoryRvAdapter(presenter.repositoryListPresenter)
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
@@ -70,13 +69,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
                 it
             )
         }
-        binding.rvRepository.addItemDecoration(dividerItemDecoration)
+        _binding?.rvRepository?.addItemDecoration(dividerItemDecoration)
 
-        binding.rvRepository.adapter = adapter
+        _binding?.rvRepository?.adapter = adapter
     }
 
     override fun setUserLogin(text: String) {
-        binding.loginUser.text = text
+        _binding?.loginUser?.text = text
     }
 
     override fun updateUserReposList() {

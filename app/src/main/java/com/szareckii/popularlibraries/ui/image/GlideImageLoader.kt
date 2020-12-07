@@ -7,6 +7,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.szareckii.popularlibraries.mvp.model.image.IImageCache
 import com.szareckii.popularlibraries.mvp.model.image.IImageLoader
 import com.szareckii.popularlibraries.mvp.model.network.INetworkStatus
 
