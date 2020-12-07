@@ -12,6 +12,7 @@ import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUsersBinding
 import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
+import com.szareckii.popularlibraries.mvp.model.image.ImageCache
 import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubUsersCache
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
@@ -31,7 +32,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    private val cacheUsers = RoomGithubUsersCache(Database.getInstance())
+    val db = Database.getInstance()
+    private val cacheUsers = RoomGithubUsersCache(db)
 
     val presenter: UsersPresenter by moxyPresenter { UsersPresenter(App.instance.router,
         RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), cacheUsers),
@@ -46,7 +48,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader())
+        adapter = UsersRvAdapter(presenter.userListPresenter, GlideImageLoader(ImageCache(requireContext(), db), AndroidNetworkStatus(requireContext())))
         binding.rvUsers.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
