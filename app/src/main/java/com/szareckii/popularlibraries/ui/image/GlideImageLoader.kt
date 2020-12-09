@@ -15,7 +15,7 @@ class GlideImageLoader(val imageCache: IImageCache, private val networkStatus: I
 
     override fun loadInto(url: String, container: ImageView) {
 
-//        if (isOnline) {
+//        if (networkStatus.isOnlineSingle()) {
         Glide.with(container.context)
             .asBitmap()
             .load(url)
@@ -38,7 +38,11 @@ class GlideImageLoader(val imageCache: IImageCache, private val networkStatus: I
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    imageCache.putImage(url, resource)
+                    imageCache.putImage(url, resource).subscribe({
+                        println("onComplete")
+                    }, {
+                        println("onError: ${it.message}")
+                    })
                     return false
                 }
             })

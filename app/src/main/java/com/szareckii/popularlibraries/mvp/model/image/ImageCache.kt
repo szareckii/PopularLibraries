@@ -12,7 +12,6 @@ import java.io.FileOutputStream
 class ImageCache(val context: Context, val db: Database): IImageCache {
 
     override fun putImage(url: String, image: Bitmap?): Completable = Completable.create { emitter ->
-
         imageToFile(url, image).let {
             if (it) {
                 emitter.onComplete()
@@ -32,8 +31,6 @@ class ImageCache(val context: Context, val db: Database): IImageCache {
         stream.close()
 
         //сохранение в БД ROOM
-        println("!!!!!!!!!!!111111111111111$url")
-        println("!!!!!!!!!!!222222222222222" +  imageFile.absolutePath)
         val roomImage = CashedImage(url, imageFile.absolutePath)
         db.imageDao.insert(roomImage)
         return true
