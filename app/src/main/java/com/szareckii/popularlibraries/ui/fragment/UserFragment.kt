@@ -10,22 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUserBinding
-import com.szareckii.popularlibraries.mvp.model.api.IDataSource
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
-import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
-import com.szareckii.popularlibraries.mvp.model.network.INetworkStatus
-import com.szareckii.popularlibraries.mvp.model.repo.retrofit.RetrofitGithubRepositoriesRepo
-import com.szareckii.popularlibraries.mvp.model.cache.room.RoomGithubRepositoriesCache
 import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.RepositoryRvAdapter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.terrakok.cicerone.Router
-import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 

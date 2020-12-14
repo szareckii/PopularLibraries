@@ -11,17 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUsersBinding
-import com.szareckii.popularlibraries.mvp.model.cache.image.room.RoomImageCache
-import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 import com.szareckii.popularlibraries.mvp.model.image.IImageLoader
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.UsersRvAdapter
-import com.szareckii.popularlibraries.ui.image.GlideImageLoader
-import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -32,12 +27,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    @Inject lateinit var database: Database          //убрать тоже
-//    @Inject lateinit var imageLoader: IImageLoader<ImageView>
+    @Inject lateinit var imageLoader: IImageLoader<ImageView>
 
-    val presenter: UsersPresenter by moxyPresenter {
-        App.component.inject(this) //удалить как глейд сделаю
-
+    val presenter by moxyPresenter {
         UsersPresenter().apply {
             App.component.inject(this)
         }
@@ -45,16 +37,19 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private var adapter: UsersRvAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): RelativeLayout? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): RelativeLayout? {
+        App.component.inject(this)
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
     override fun init() {
         _binding?.rvUsers?.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRvAdapter(presenter.userListPresenter, //imageLoader
-            GlideImageLoader(RoomImageCache(database, App.instance.cacheDir), AndroidNetworkStatus(context!!))
-        )
+        adapter = UsersRvAdapter(presenter.userListPresenter, imageLoader)
         _binding?.rvUsers?.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)

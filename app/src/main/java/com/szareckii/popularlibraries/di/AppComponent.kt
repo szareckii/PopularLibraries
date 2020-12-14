@@ -6,8 +6,6 @@ import com.szareckii.popularlibraries.mvp.presenter.RepositoryPresenter
 import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
 import com.szareckii.popularlibraries.ui.activity.MainActivity
-import com.szareckii.popularlibraries.ui.fragment.RepositoryFragment
-import com.szareckii.popularlibraries.ui.fragment.UserFragment
 import com.szareckii.popularlibraries.ui.fragment.UsersFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -29,6 +27,6 @@ interface AppComponent {
     fun inject(repositoryPresenter: RepositoryPresenter)
 
     //вот этого здесь не будет
-//    fun inject(usersFragment: UsersFragment)
+    fun inject(usersFragment: UsersFragment)
 
 }

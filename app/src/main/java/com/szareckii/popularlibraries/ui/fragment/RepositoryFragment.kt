@@ -13,8 +13,6 @@ import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.terrakok.cicerone.Router
-import javax.inject.Inject
 
 class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
 

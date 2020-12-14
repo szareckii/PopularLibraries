@@ -3,7 +3,6 @@ package com.szareckii.popularlibraries.mvp.presenter
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.mvp.model.repo.IGithubRepositoriesRepo
-import com.szareckii.popularlibraries.mvp.model.repo.IGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IRepositoryListPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.mvp.view.listUsers.RepositoryItemView

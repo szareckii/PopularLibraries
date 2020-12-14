@@ -4,7 +4,6 @@ import android.app.Application
 import com.szareckii.popularlibraries.di.AppComponent
 import com.szareckii.popularlibraries.di.DaggerAppComponent
 import com.szareckii.popularlibraries.di.modules.AppModule
-import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 
 class App: Application() {
     companion object{
@@ -21,6 +20,4 @@ class App: Application() {
             .appModule(AppModule(this))
             .build()
     }
-
-
 }

@@ -1,6 +1,8 @@
 package com.szareckii.popularlibraries.di.modules
 
 import androidx.room.Room
+import com.szareckii.popularlibraries.mvp.model.cache.image.IImageCache
+import com.szareckii.popularlibraries.mvp.model.cache.image.room.RoomImageCache
 import com.szareckii.popularlibraries.mvp.model.cache.room.RoomGithubRepositoriesCache
 import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 import com.szareckii.popularlibraries.mvp.model.repo.cache.IGithubUsersCache
@@ -9,6 +11,7 @@ import com.szareckii.popularlibraries.mvp.model.repo.cache.IGithubRepositoriesCa
 import com.szareckii.popularlibraries.ui.App
 import dagger.Module
 import dagger.Provides
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +28,8 @@ class CacheModule {
     @Singleton
     @Provides
     fun repositoriesCache(database: Database): IGithubRepositoriesCache = RoomGithubRepositoriesCache(database)
+
+    @Singleton
+    @Provides
+    fun imageCache(database: Database, cacheDir: File): IImageCache = RoomImageCache(database, cacheDir)
 }
