@@ -2,23 +2,19 @@ package com.szareckii.popularlibraries.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.szareckii.popularlibraries.databinding.FragmentRepositoryBinding
-import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
-import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.RepositoryPresenter
 import com.szareckii.popularlibraries.mvp.view.RepositoryView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
-import moxy.MvpPresenter
 import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonListener {
 
@@ -34,9 +30,13 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     }
 
     val presenter: RepositoryPresenter by moxyPresenter {
+
         val user = arguments?.get(USER_ARG) as GithubUser
         val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
-        RepositoryPresenter(App.instance.router, user, repository)
+
+        RepositoryPresenter(user, repository).apply {
+            App.component.inject(this)
+        }
     }
 
     private var _binding: FragmentRepositoryBinding? = null

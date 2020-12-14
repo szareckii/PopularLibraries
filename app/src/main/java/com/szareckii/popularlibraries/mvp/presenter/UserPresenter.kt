@@ -3,7 +3,7 @@ package com.szareckii.popularlibraries.mvp.presenter
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.mvp.model.repo.IGithubRepositoriesRepo
-import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubUsersRepo
+import com.szareckii.popularlibraries.mvp.model.repo.IGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IRepositoryListPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.mvp.view.listUsers.RepositoryItemView
@@ -13,9 +13,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
-class UserPresenter(val router: Router, val user: GithubUser, val repositoriesRepo: IGithubRepositoriesRepo, val mainScheduler: Scheduler): MvpPresenter<UserView>() {
-//ass UserPresenter(private val router: Router, private val user: GithubUser, private val repositoriesRepo: IGithubRepositoriesRepo, private val mainScheduler: Scheduler): MvpPresenter<UserView>() {
+class UserPresenter(val user: GithubUser): MvpPresenter<UserView>() {
+
+    @Inject lateinit var repositoriesRepo: IGithubRepositoriesRepo
+    @Inject lateinit var router: Router
+    @Inject lateinit var uiScheduler: Scheduler
+
 
     class RepositoryListPresenter: IRepositoryListPresenter {
         override var itemClickListener: ((RepositoryItemView) -> Unit)? = null
@@ -46,7 +51,7 @@ class UserPresenter(val router: Router, val user: GithubUser, val repositoriesRe
 
     private fun loadData() {
         repositoriesRepo.getRepositories(user)
-            .observeOn(mainScheduler)
+            .observeOn(uiScheduler)
             .subscribe({ repositories ->
                 repositoryListPresenter.repositories.clear()
                 repositoryListPresenter.repositories.addAll(repositories)

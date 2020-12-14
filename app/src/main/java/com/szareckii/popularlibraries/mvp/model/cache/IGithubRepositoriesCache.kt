@@ -5,7 +5,7 @@ import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
-interface IRoomGithubRepositoriesCache {
-    fun putRepositories(user: GithubUser, repositories: List<GithubRepository>): Completable
-    fun getRepositories(user: GithubUser): Single<List<GithubRepository>>
+interface IGithubRepositoriesCache {
+    fun putUserRepos(user: GithubUser, repositories: List<GithubRepository>): Completable
+    fun getUserRepos(user: GithubUser): Single<List<GithubRepository>>
 }

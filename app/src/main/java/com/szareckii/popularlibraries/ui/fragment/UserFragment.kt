@@ -2,7 +2,6 @@ package com.szareckii.popularlibraries.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
@@ -11,21 +10,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUserBinding
-import com.szareckii.popularlibraries.mvp.model.api.ApiHolder
+import com.szareckii.popularlibraries.mvp.model.api.IDataSource
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
-import com.szareckii.popularlibraries.mvp.model.repo.RetrofitGithubRepositoriesRepo
-import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubRepositoriesCache
-import com.szareckii.popularlibraries.mvp.model.repo.cache.RoomGithubUsersCache
+import com.szareckii.popularlibraries.mvp.model.network.INetworkStatus
+import com.szareckii.popularlibraries.mvp.model.repo.retrofit.RetrofitGithubRepositoriesRepo
+import com.szareckii.popularlibraries.mvp.model.cache.room.RoomGithubRepositoriesCache
 import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.ui.App
 import com.szareckii.popularlibraries.ui.BackButtonListener
 import com.szareckii.popularlibraries.ui.adapter.RepositoryRvAdapter
-import com.szareckii.popularlibraries.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
@@ -38,23 +38,19 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         }
     }
 
-    private val cacheRepositories = RoomGithubRepositoriesCache(Database.getInstance())
-
     val presenter: UserPresenter by moxyPresenter {
+
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        UserPresenter(App.instance.router, user,  RetrofitGithubRepositoriesRepo(ApiHolder.api,
-            AndroidNetworkStatus(requireContext()), cacheRepositories), AndroidSchedulers.mainThread())
+        UserPresenter(user).apply {
+            App.component.inject(this)
+        }
     }
 
     private var adapter: RepositoryRvAdapter? = null
 
     private var _binding: FragmentUserBinding? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): LinearLayout? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): LinearLayout? {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         return _binding?.root
     }

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class CashedImage (
-    @PrimaryKey var avatarUrl: String,
-    var avatarPath: String
+class RoomCachedImage (
+    @PrimaryKey val url: String,
+    val localPath: String
 )

@@ -11,8 +11,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
-class UsersPresenter(val router: Router, val usersRepo: IGithubUsersRepo, val mainScheduler: Scheduler): MvpPresenter<UsersView>() {
+class UsersPresenter(): MvpPresenter<UsersView>() {
+
+    @Inject lateinit var usersRepo: IGithubUsersRepo
+    @Inject lateinit var router: Router
+    @Inject lateinit var uiScheduler: Scheduler
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
@@ -43,7 +48,7 @@ class UsersPresenter(val router: Router, val usersRepo: IGithubUsersRepo, val ma
 
     private fun loadData() {
          usersRepo.getUsers()
-            .observeOn(mainScheduler)
+            .observeOn(uiScheduler)
             .subscribe({ repos ->
                 userListPresenter.users.clear()
                 userListPresenter.users.addAll(repos)
