@@ -21,14 +21,14 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     val presenter by moxyPresenter {
         MainPresenter().apply {
-            App.component.inject(this)
+            App.instance.appComponent.inject(this)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        App.component.inject(this)
+        App.instance.appComponent.inject(this)
     }
 
     override fun onResumeFragments() {

@@ -11,8 +11,12 @@ import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_user.*
+import javax.inject.Inject
 
-class UsersRvAdapter(val presenter: IUserListPresenter, val imageLoader: IImageLoader<ImageView>): RecyclerView.Adapter<UsersRvAdapter.ViewHolder>() {
+class UsersRvAdapter(val presenter: IUserListPresenter): RecyclerView.Adapter<UsersRvAdapter.ViewHolder>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false))

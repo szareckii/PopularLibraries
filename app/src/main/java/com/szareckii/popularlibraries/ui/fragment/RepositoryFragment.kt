@@ -35,17 +35,13 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
         val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
 
         RepositoryPresenter(user, repository).apply {
-            App.component.inject(this)
+            App.instance.repositorySubcomponent?.inject(this)
         }
     }
 
     private var _binding: FragmentRepositoryBinding? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): LinearLayout? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): LinearLayout? {
         _binding = FragmentRepositoryBinding.inflate(inflater, container, false)
         return _binding?.root
     }
