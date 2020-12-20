@@ -1,6 +1,6 @@
 package com.szareckii.popularlibraries.navigation
 
-import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
+import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.ui.fragment.RepositoryFragment
 import com.szareckii.popularlibraries.ui.fragment.UserFragment
@@ -12,11 +12,11 @@ class Screens {
         override fun getFragment() = UsersFragment.newInstance()
     }
 
-    class UserScreen(private val user: GithubUser): SupportAppScreen() {
+    class UserScreen(private val user: IMDBMovie): SupportAppScreen() {
         override fun getFragment() = UserFragment.newInstance(user)
     }
 
-    class RepositoryScreen(private val user: GithubUser, private val repository: GithubRepository): SupportAppScreen() {
+    class RepositoryScreen(private val user: IMDBMovie, private val repository: GithubRepository): SupportAppScreen() {
         override fun getFragment() = RepositoryFragment.newInstance(user, repository)
     }
 }

@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.szareckii.popularlibraries.R
 import com.szareckii.popularlibraries.databinding.FragmentUserBinding
-import com.szareckii.popularlibraries.di.repository.RepositorySubcomponent
-import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
+import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
 import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.ui.App
@@ -24,7 +23,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     companion object {
         private const val USER_ARG = "user"
-        fun newInstance(user: GithubUser) = UserFragment().apply {
+        fun newInstance(user: IMDBMovie) = UserFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(USER_ARG, user)
             }
@@ -36,7 +35,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     val presenter: UserPresenter by moxyPresenter {
         App.instance.initRepositorySubcomponent()
 
-        val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
+        val user = arguments?.getParcelable<IMDBMovie>(USER_ARG) as IMDBMovie
         UserPresenter(user).apply {
             App.instance.repositorySubcomponent?.inject(this)
         }

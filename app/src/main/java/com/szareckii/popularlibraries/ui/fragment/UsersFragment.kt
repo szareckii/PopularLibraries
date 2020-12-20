@@ -25,9 +25,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-        App.instance.initUserSubcomponent()
+        App.instance.initMovieSubcomponent()
         UsersPresenter().apply {
-            App.instance.userSubcomponent?.inject(this)
+            App.instance.movieSubcomponent?.inject(this)
         }
     }
 
@@ -41,7 +41,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun init() {
         _binding?.rvUsers?.layoutManager = LinearLayoutManager(requireContext())
         adapter = UsersRvAdapter(presenter.userListPresenter).apply {
-            App.instance.userSubcomponent?.inject(this)
+            App.instance.movieSubcomponent?.inject(this)
         }
         _binding?.rvUsers?.adapter = adapter
 
@@ -69,6 +69,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        App.instance.releaseUserSubcomponent()
+        App.instance.releaseMovieSubcomponent()
     }
 }

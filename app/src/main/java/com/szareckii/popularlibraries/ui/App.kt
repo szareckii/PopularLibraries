@@ -4,9 +4,8 @@ import android.app.Application
 import com.szareckii.popularlibraries.di.AppComponent
 import com.szareckii.popularlibraries.di.DaggerAppComponent
 import com.szareckii.popularlibraries.di.modules.AppModule
+import com.szareckii.popularlibraries.di.movie.MovieSubcomponent
 import com.szareckii.popularlibraries.di.repository.RepositorySubcomponent
-import com.szareckii.popularlibraries.di.user.UserSubcomponent
-import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 
 class App: Application() {
     companion object{
@@ -16,7 +15,7 @@ class App: Application() {
     lateinit var appComponent: AppComponent
         private set
 
-    var userSubcomponent: UserSubcomponent? = null
+    var movieSubcomponent: MovieSubcomponent? = null
         private set
 
     var repositorySubcomponent: RepositorySubcomponent? = null
@@ -32,15 +31,15 @@ class App: Application() {
             .build()
     }
 
-    fun initUserSubcomponent() = appComponent.userSubcomponent().also {
-        userSubcomponent = it
+    fun initMovieSubcomponent() = appComponent.movieSubcomponent().also {
+        movieSubcomponent = it
     }
 
-    fun releaseUserSubcomponent() {
-        userSubcomponent = null
+    fun releaseMovieSubcomponent() {
+        movieSubcomponent = null
     }
 
-    fun initRepositorySubcomponent() = userSubcomponent?.repositorySubcomponent().also {
+    fun initRepositorySubcomponent() = movieSubcomponent?.repositorySubcomponent().also {
           repositorySubcomponent = it
     }
 

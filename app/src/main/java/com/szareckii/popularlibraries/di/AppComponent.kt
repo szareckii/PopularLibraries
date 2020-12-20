@@ -1,7 +1,7 @@
 package com.szareckii.popularlibraries.di
 
 import com.szareckii.popularlibraries.di.modules.*
-import com.szareckii.popularlibraries.di.user.UserSubcomponent
+import com.szareckii.popularlibraries.di.movie.MovieSubcomponent
 import com.szareckii.popularlibraries.mvp.presenter.MainPresenter
 import com.szareckii.popularlibraries.ui.activity.MainActivity
 import dagger.Component
@@ -15,7 +15,7 @@ import javax.inject.Singleton
     ImageModule::class
 ])
 interface AppComponent {
-    fun userSubcomponent(): UserSubcomponent
+    fun movieSubcomponent(): MovieSubcomponent
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)

@@ -1,7 +1,7 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
-import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
-import com.szareckii.popularlibraries.mvp.model.repo.IGithubUsersRepo
+import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
+import com.szareckii.popularlibraries.mvp.model.repo.IIMDBMoviesRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
@@ -15,19 +15,19 @@ import javax.inject.Inject
 
 class UsersPresenter(): MvpPresenter<UsersView>() {
 
-    @Inject lateinit var usersRepo: IGithubUsersRepo
+    @Inject lateinit var usersRepo: IIMDBMoviesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var uiScheduler: Scheduler
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
 
-        val users = mutableListOf<GithubUser>()
+        val users = mutableListOf<IMDBMovie>()
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            user.login?.let { view.setLogin(it) }
-            user.avatarUrl?.let { view.loadImage(it) }
+            user.title?.let { view.setLogin(it) }
+            user.image?.let { view.loadImage(it) }
         }
 
         override fun getCount() = users.size
@@ -47,7 +47,7 @@ class UsersPresenter(): MvpPresenter<UsersView>() {
     }
 
     private fun loadData() {
-         usersRepo.getUsers()
+         usersRepo.getMovies()
             .observeOn(uiScheduler)
             .subscribe({ repos ->
                 userListPresenter.users.clear()

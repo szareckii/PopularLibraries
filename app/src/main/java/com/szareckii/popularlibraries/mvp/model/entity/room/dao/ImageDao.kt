@@ -3,7 +3,6 @@ package com.szareckii.popularlibraries.mvp.model.entity.room.dao
 import androidx.room.*
 import com.szareckii.popularlibraries.mvp.model.entity.room.RoomCachedImage
 
-
 @Dao
 interface ImageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

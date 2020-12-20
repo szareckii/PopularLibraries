@@ -1,9 +1,8 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
-import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
+import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.mvp.model.repo.IGithubRepositoriesRepo
-import com.szareckii.popularlibraries.mvp.model.repo.IGithubUsersRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IRepositoryListPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.mvp.view.listUsers.RepositoryItemView
@@ -15,7 +14,7 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class UserPresenter(val user: GithubUser): MvpPresenter<UserView>() {
+class UserPresenter(val user: IMDBMovie): MvpPresenter<UserView>() {
 
     @Inject lateinit var repositoriesRepo: IGithubRepositoriesRepo
     @Inject lateinit var router: Router
@@ -42,7 +41,7 @@ class UserPresenter(val user: GithubUser): MvpPresenter<UserView>() {
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-        user.login?.let { viewState.setUserLogin(it) }
+        user.title?.let { viewState.setUserLogin(it) }
 
         repositoryListPresenter.itemClickListener = {itemView ->
             router.navigateTo(Screens.RepositoryScreen(user, repositoryListPresenter.repositories[itemView.pos]))

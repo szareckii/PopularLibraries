@@ -1,10 +1,8 @@
-package com.szareckii.popularlibraries.di.user
+package com.szareckii.popularlibraries.di.movie
 
 import com.szareckii.popularlibraries.di.UserScope
 import com.szareckii.popularlibraries.di.repository.RepositorySubcomponent
-import com.szareckii.popularlibraries.di.repository.module.RepositoryModule
-import com.szareckii.popularlibraries.di.user.module.UserModule
-import com.szareckii.popularlibraries.mvp.presenter.UserPresenter
+import com.szareckii.popularlibraries.di.movie.module.MovieModule
 import com.szareckii.popularlibraries.mvp.presenter.UsersPresenter
 import com.szareckii.popularlibraries.ui.adapter.UsersRvAdapter
 import dagger.Subcomponent
@@ -12,10 +10,10 @@ import dagger.Subcomponent
 @UserScope
 @Subcomponent(
         modules = [
-            UserModule::class
+            MovieModule::class
         ]
 )
-interface UserSubcomponent {
+interface MovieSubcomponent {
     fun repositorySubcomponent(): RepositorySubcomponent
 
     fun inject(usersPresenter: UsersPresenter)

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity (
     foreignKeys = [ForeignKey(
-        entity = RoomGithubUser::class,
+        entity = RoomIMDBMovie::class,
         parentColumns = ["id"],
         childColumns = ["userId"],
         onDelete = ForeignKey.CASCADE
