@@ -21,7 +21,6 @@ class ApiModule {
     @Named("baseUrl")
     @Provides
 //    fun baseUrl() = "https://api.github.com"
-//    fun baseUrl() = "https://imdb-api.com/ru/API/Top250Movies/k_r19m1l92/"
     fun baseUrl() = "https://imdb-api.com/ru/API/"
 
     @Singleton
