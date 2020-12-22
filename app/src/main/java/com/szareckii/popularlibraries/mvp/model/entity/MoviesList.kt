@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MoviesList (
-        @Expose val items: List<IMDBMovie>? = null
+        @Expose val items: List<Movie>? = null
 ): Parcelable

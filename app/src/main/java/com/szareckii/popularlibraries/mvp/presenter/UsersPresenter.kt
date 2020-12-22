@@ -1,7 +1,7 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
-import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
-import com.szareckii.popularlibraries.mvp.model.repo.IIMDBMoviesRepo
+import com.szareckii.popularlibraries.mvp.model.entity.Movie
+import com.szareckii.popularlibraries.mvp.model.repo.MoviesRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
@@ -15,14 +15,14 @@ import javax.inject.Inject
 
 class UsersPresenter(): MvpPresenter<UsersView>() {
 
-    @Inject lateinit var usersRepo: IIMDBMoviesRepo
+    @Inject lateinit var usersRepo: MoviesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var uiScheduler: Scheduler
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
 
-        val users = mutableListOf<IMDBMovie>()
+        val users = mutableListOf<Movie>()
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
@@ -47,7 +47,7 @@ class UsersPresenter(): MvpPresenter<UsersView>() {
     }
 
     private fun loadData() {
-         usersRepo.getMovies()
+         usersRepo.getMoviesList()
             .observeOn(uiScheduler)
             .subscribe({ repos ->
                 userListPresenter.users.clear()

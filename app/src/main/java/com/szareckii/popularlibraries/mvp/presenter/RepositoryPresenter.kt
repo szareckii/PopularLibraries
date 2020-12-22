@@ -1,13 +1,13 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
-import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
+import com.szareckii.popularlibraries.mvp.model.entity.Movie
 import com.szareckii.popularlibraries.mvp.view.RepositoryView
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class RepositoryPresenter(val user: IMDBMovie, private val githubRepository: GithubRepository): MvpPresenter<RepositoryView>() {
+class RepositoryPresenter(val user: Movie, private val githubRepository: GithubRepository): MvpPresenter<RepositoryView>() {
 
     @Inject lateinit var router: Router
 

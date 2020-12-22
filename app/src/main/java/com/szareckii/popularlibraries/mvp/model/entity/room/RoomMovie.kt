@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 
 @Entity
-class RoomIMDBMovie(
+class RoomMovie(
     @PrimaryKey var id: String,
     var title: String,
     var image: String,
     var year: String,
-    var imDbRating: String
+    var imDbRating: Float
 )

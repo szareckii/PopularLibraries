@@ -1,42 +1,40 @@
 package com.szareckii.popularlibraries.mvp.model.entity.room.dao
 
 import androidx.room.*
-import com.szareckii.popularlibraries.mvp.model.cache.image.room.RoomImageCache
-import com.szareckii.popularlibraries.mvp.model.entity.room.RoomGithubUser
-import com.szareckii.popularlibraries.mvp.model.entity.room.RoomIMDBMovie
+import com.szareckii.popularlibraries.mvp.model.entity.room.RoomMovie
 
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movie: RoomIMDBMovie)
+    fun insert(movie: RoomMovie)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg users: RoomIMDBMovie)
+    fun insert(vararg users: RoomMovie)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movie: List<RoomIMDBMovie>)
+    fun insert(movie: List<RoomMovie>)
 
     @Update
-    fun update(user: RoomIMDBMovie)
+    fun update(user: RoomMovie)
 
     @Update
-    fun update(vararg movies: RoomIMDBMovie)
+    fun update(vararg movies: RoomMovie)
 
     @Update
-    fun update(movies: List<RoomIMDBMovie>)
+    fun update(movies: List<RoomMovie>)
 
     @Delete
-    fun delete(movie: RoomIMDBMovie)
+    fun delete(movie: RoomMovie)
 
     @Delete
-    fun delete(vararg movies: RoomIMDBMovie)
+    fun delete(vararg movies: RoomMovie)
 
     @Delete
-    fun delete(movies: List<RoomIMDBMovie>)
+    fun delete(movies: List<RoomMovie>)
 
-    @Query("SELECT * FROM RoomIMDBMovie")
-    fun getAll(): List<RoomIMDBMovie>
+    @Query("SELECT * FROM RoomMovie")
+    fun getAll(): List<RoomMovie>
 
-    @Query("SELECT * FROM RoomIMDBMovie WHERE title = :title LIMIT 1")
-    fun findByLogin(title: String): RoomIMDBMovie?
+    @Query("SELECT * FROM RoomMovie WHERE title = :title LIMIT 1")
+    fun findByLogin(title: String): RoomMovie?
 }

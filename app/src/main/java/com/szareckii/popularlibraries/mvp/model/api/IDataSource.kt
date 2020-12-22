@@ -1,7 +1,6 @@
 package com.szareckii.popularlibraries.mvp.model.api
 
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
-import com.szareckii.popularlibraries.mvp.model.entity.IMDBMovie
 import com.szareckii.popularlibraries.mvp.model.entity.MoviesList
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET

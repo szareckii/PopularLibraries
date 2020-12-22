@@ -6,7 +6,7 @@ import com.szareckii.popularlibraries.mvp.model.entity.room.dao.ImageDao
 import com.szareckii.popularlibraries.mvp.model.entity.room.dao.MovieDao
 import com.szareckii.popularlibraries.mvp.model.entity.room.dao.RepositoryDao
 
-@androidx.room.Database(entities = [RoomIMDBMovie::class, RoomGithubRepository::class, RoomCachedImage::class], version = 1)
+@androidx.room.Database(entities = [RoomMovie::class, RoomGithubRepository::class, RoomCachedImage::class], version = 1)
 //@androidx.room.Database(entities = [RoomIMDBMovie::class, RoomCachedImage::class], version = 1)
 abstract class Database: RoomDatabase() {
     abstract val movieDao: MovieDao

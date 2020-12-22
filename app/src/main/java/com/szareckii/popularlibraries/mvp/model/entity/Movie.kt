@@ -5,10 +5,10 @@ import com.google.gson.annotations.Expose
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class IMDBMovie(
+data class Movie(
         @Expose val id: String? = null,
         @Expose val title: String? = null,
         @Expose val image: String? = null,
         @Expose val year: String? = null,
-        @Expose val imDbRating: String? = null
+        @Expose val imDbRating: Float? = null
 ): Parcelable

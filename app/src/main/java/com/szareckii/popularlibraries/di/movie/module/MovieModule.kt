@@ -2,12 +2,12 @@ package com.szareckii.popularlibraries.di.movie.module
 
 import com.szareckii.popularlibraries.di.UserScope
 import com.szareckii.popularlibraries.mvp.model.api.IDataSource
-import com.szareckii.popularlibraries.mvp.model.cache.IIMDBMoviesCache
-import com.szareckii.popularlibraries.mvp.model.cache.room.RoomIMDBMoviesCache
+import com.szareckii.popularlibraries.mvp.model.cache.MoviesCache
+import com.szareckii.popularlibraries.mvp.model.cache.room.RoomMoviesCache
 import com.szareckii.popularlibraries.mvp.model.entity.room.db.Database
 import com.szareckii.popularlibraries.mvp.model.network.INetworkStatus
-import com.szareckii.popularlibraries.mvp.model.repo.IIMDBMoviesRepo
-import com.szareckii.popularlibraries.mvp.model.repo.retrofit.RetrofitIMDBMoviesRepo
+import com.szareckii.popularlibraries.mvp.model.repo.MoviesRepo
+import com.szareckii.popularlibraries.mvp.model.repo.retrofit.RetrofitMoviesRepo
 import dagger.Module
 import dagger.Provides
 
@@ -16,12 +16,12 @@ class MovieModule {
 
     @UserScope
     @Provides
-    fun moviesCache(database: Database): IIMDBMoviesCache = RoomIMDBMoviesCache(database)
+    fun moviesCache(database: Database): MoviesCache = RoomMoviesCache(database)
 
 
     @UserScope
     @Provides
-    fun moviesRepo(api: IDataSource, networkStatus: INetworkStatus, cache: IIMDBMoviesCache) : IIMDBMoviesRepo =
-            RetrofitIMDBMoviesRepo(api, networkStatus, cache)
+    fun moviesRepo(api: IDataSource, networkStatus: INetworkStatus, cache: MoviesCache) : MoviesRepo =
+            RetrofitMoviesRepo(api, networkStatus, cache)
 
 }
