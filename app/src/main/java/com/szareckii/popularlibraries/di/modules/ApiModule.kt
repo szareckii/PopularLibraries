@@ -20,7 +20,6 @@ class ApiModule {
 
     @Named("baseUrl")
     @Provides
-//    fun baseUrl() = "https://api.github.com"
     fun baseUrl() = "https://imdb-api.com/ru/API/"
 
     @Singleton
@@ -35,7 +34,7 @@ class ApiModule {
     @Singleton
     @Provides
     fun gson() = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+//            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .excludeFieldsWithoutExposeAnnotation()
             .create()
 

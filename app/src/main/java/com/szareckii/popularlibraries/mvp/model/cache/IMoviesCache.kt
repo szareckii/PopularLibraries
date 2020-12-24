@@ -4,7 +4,7 @@ import com.szareckii.popularlibraries.mvp.model.entity.Movie
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
-interface MoviesCache {
+interface IMoviesCache {
 //    fun putMovies(movies: List<IMDBMovie>): Completable
 //    fun getMovies(): Single<List<IMDBMovie>>
     fun putMovies(movies: List<Movie>): Completable

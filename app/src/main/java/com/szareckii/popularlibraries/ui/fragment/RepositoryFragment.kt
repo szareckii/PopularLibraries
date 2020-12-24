@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.szareckii.popularlibraries.databinding.FragmentRepositoryBinding
+import com.szareckii.popularlibraries.mvp.model.entity.Actor
 import com.szareckii.popularlibraries.mvp.model.entity.Movie
-import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
 import com.szareckii.popularlibraries.mvp.presenter.RepositoryPresenter
 import com.szareckii.popularlibraries.mvp.view.RepositoryView
 import com.szareckii.popularlibraries.ui.App
@@ -19,10 +19,11 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     companion object {
         private const val REPOSITORY_ARG = "repository"
         private const val USER_ARG = "user"
-        fun newInstance(user: Movie, repository: GithubRepository) = RepositoryFragment().apply {
+//        fun newInstance(user: Movie, repository: GithubRepository) = RepositoryFragment().apply {
+        fun newInstance(user: Movie, actor: Actor) = RepositoryFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(USER_ARG, user)
-                putParcelable(REPOSITORY_ARG, repository)
+                putParcelable(REPOSITORY_ARG, actor)
             }
         }
     }
@@ -30,7 +31,8 @@ class RepositoryFragment : MvpAppCompatFragment(), RepositoryView, BackButtonLis
     val presenter: RepositoryPresenter by moxyPresenter {
 
         val user = arguments?.get(USER_ARG) as Movie
-        val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
+//        val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
+        val repository = arguments?.getParcelable<Actor>(REPOSITORY_ARG) as Actor
 
         RepositoryPresenter(user, repository).apply {
             App.instance.repositorySubcomponent?.inject(this)

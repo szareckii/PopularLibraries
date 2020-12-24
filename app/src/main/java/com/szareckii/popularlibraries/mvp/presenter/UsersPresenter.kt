@@ -1,7 +1,7 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
 import com.szareckii.popularlibraries.mvp.model.entity.Movie
-import com.szareckii.popularlibraries.mvp.model.repo.MoviesRepo
+import com.szareckii.popularlibraries.mvp.model.repo.IMoviesRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IUserListPresenter
 import com.szareckii.popularlibraries.mvp.view.UsersView
 import com.szareckii.popularlibraries.mvp.view.listUsers.UserItemView
@@ -15,22 +15,22 @@ import javax.inject.Inject
 
 class UsersPresenter(): MvpPresenter<UsersView>() {
 
-    @Inject lateinit var usersRepo: MoviesRepo
+    @Inject lateinit var usersRepo: IMoviesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var uiScheduler: Scheduler
 
     class UserListPresenter: IUserListPresenter{
         override var itemClickListener: ((UserItemView) -> Unit)? = null
 
-        val users = mutableListOf<Movie>()
+        val movies = mutableListOf<Movie>()
 
         override fun bindView(view: UserItemView) {
-            val user = users[view.pos]
-            user.title?.let { view.setLogin(it) }
-            user.image?.let { view.loadImage(it) }
+            val movie = movies[view.pos]
+            movie.title?.let { view.setLogin(it) }
+            movie.image?.let { view.loadImage(it) }
         }
 
-        override fun getCount() = users.size
+        override fun getCount() = movies.size
     }
 
     val userListPresenter = UserListPresenter()
@@ -42,16 +42,16 @@ class UsersPresenter(): MvpPresenter<UsersView>() {
         loadData()
 
         userListPresenter.itemClickListener = {itemView ->
-            router.navigateTo(Screens.UserScreen(userListPresenter.users[itemView.pos]))
+            router.navigateTo(Screens.UserScreen(userListPresenter.movies[itemView.pos]))
         }
     }
 
     private fun loadData() {
          usersRepo.getMoviesList()
             .observeOn(uiScheduler)
-            .subscribe({ repos ->
-                userListPresenter.users.clear()
-                userListPresenter.users.addAll(repos)
+            .subscribe({ movies ->
+                userListPresenter.movies.clear()
+                userListPresenter.movies.addAll(movies)
                 viewState.updateUsersList()
             }, {
                 println("Error: ${it.message}")

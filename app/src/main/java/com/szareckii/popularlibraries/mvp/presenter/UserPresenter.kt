@@ -1,8 +1,9 @@
 package com.szareckii.popularlibraries.mvp.presenter
 
+import com.szareckii.popularlibraries.mvp.model.entity.Actor
 import com.szareckii.popularlibraries.mvp.model.entity.Movie
-import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
-import com.szareckii.popularlibraries.mvp.model.repo.IGithubRepositoriesRepo
+import com.szareckii.popularlibraries.mvp.model.entity.MovieActorsList
+import com.szareckii.popularlibraries.mvp.model.repo.IActorsRepo
 import com.szareckii.popularlibraries.mvp.presenter.list.IRepositoryListPresenter
 import com.szareckii.popularlibraries.mvp.view.UserView
 import com.szareckii.popularlibraries.mvp.view.listUsers.RepositoryItemView
@@ -14,9 +15,9 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class UserPresenter(val user: Movie): MvpPresenter<UserView>() {
+class UserPresenter(val movie: Movie): MvpPresenter<UserView>() {
 
-    @Inject lateinit var repositoriesRepo: IGithubRepositoriesRepo
+    @Inject lateinit var actorsRepo: IActorsRepo
     @Inject lateinit var router: Router
     @Inject lateinit var uiScheduler: Scheduler
 
@@ -24,14 +25,14 @@ class UserPresenter(val user: Movie): MvpPresenter<UserView>() {
     class RepositoryListPresenter: IRepositoryListPresenter {
         override var itemClickListener: ((RepositoryItemView) -> Unit)? = null
 
-        val repositories = mutableListOf<GithubRepository>()
+        val actors = mutableListOf<Actor>()
 
         override fun bindView(view: RepositoryItemView) {
-            val repository = repositories[view.pos]
-            repository.name?.let { view.setName(it) }
+            val actor = actors[view.pos]
+            actor.name?.let { view.setName(it) }
         }
 
-        override fun getCount() = repositories.size
+        override fun getCount() = actors.size
     }
 
     val repositoryListPresenter = RepositoryListPresenter()
@@ -41,19 +42,19 @@ class UserPresenter(val user: Movie): MvpPresenter<UserView>() {
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-        user.title?.let { viewState.setUserLogin(it) }
+        movie.title?.let { viewState.setUserLogin(it) }
 
         repositoryListPresenter.itemClickListener = {itemView ->
-            router.navigateTo(Screens.RepositoryScreen(user, repositoryListPresenter.repositories[itemView.pos]))
+            router.navigateTo(Screens.RepositoryScreen(movie, repositoryListPresenter.actors[itemView.pos]))
         }
     }
 
     private fun loadData() {
-        repositoriesRepo.getRepositories(user)
+        actorsRepo.getActorsList(movie)
             .observeOn(uiScheduler)
-            .subscribe({ repositories ->
-                repositoryListPresenter.repositories.clear()
-                repositoryListPresenter.repositories.addAll(repositories)
+            .subscribe({ actors ->
+                repositoryListPresenter.actors.clear()
+                repositoryListPresenter.actors.addAll(actors)
                 viewState.updateUserReposList()
             }, {
                 println("Error: ${it.message}")

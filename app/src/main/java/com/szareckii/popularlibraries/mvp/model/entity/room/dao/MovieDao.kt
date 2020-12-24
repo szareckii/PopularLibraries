@@ -37,4 +37,5 @@ interface MovieDao {
 
     @Query("SELECT * FROM RoomMovie WHERE title = :title LIMIT 1")
     fun findByLogin(title: String): RoomMovie?
+
 }

@@ -5,7 +5,7 @@ import com.szareckii.popularlibraries.di.AppComponent
 import com.szareckii.popularlibraries.di.DaggerAppComponent
 import com.szareckii.popularlibraries.di.modules.AppModule
 import com.szareckii.popularlibraries.di.movie.MovieSubcomponent
-import com.szareckii.popularlibraries.di.repository.RepositorySubcomponent
+import com.szareckii.popularlibraries.di.repository.ActorSubcomponent
 
 class App: Application() {
     companion object{
@@ -18,7 +18,7 @@ class App: Application() {
     var movieSubcomponent: MovieSubcomponent? = null
         private set
 
-    var repositorySubcomponent: RepositorySubcomponent? = null
+    var repositorySubcomponent: ActorSubcomponent? = null
         private set
 
 
