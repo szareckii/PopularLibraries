@@ -1,6 +1,5 @@
 package com.szareckii.popularlibraries
 
-import android.os.Parcelable
 import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -9,11 +8,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.gson.annotations.Expose
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.ui.fragment.UserFragment
-import com.szareckii.popularlibraries.ui.fragment.UsersFragment
-import kotlinx.android.parcel.Parcelize
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
