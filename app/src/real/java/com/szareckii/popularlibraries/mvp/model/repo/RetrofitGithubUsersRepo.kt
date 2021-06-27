@@ -4,6 +4,7 @@ import com.szareckii.popularlibraries.mvp.model.api.IDataSource
 import com.szareckii.popularlibraries.mvp.model.entity.GithubReposFork
 import com.szareckii.popularlibraries.mvp.model.entity.GithubUser
 import com.szareckii.popularlibraries.mvp.model.entity.GithubRepository
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
